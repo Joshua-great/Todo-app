@@ -10,10 +10,8 @@ const addTodo = async (newtask) => {
       });
   
       if (response.ok) {
-        // Handle successful response (e.g., create a new todo item in your UI)
+        
         const todo = await response.json();
-  
-        // Create a new list item for the todo
         const newItem = document.createElement('li');
         newItem.innerHTML = `
           <input type="checkbox">
@@ -23,11 +21,11 @@ const addTodo = async (newtask) => {
           <button class="delete">Delete</button>
         `;
   
-        // Add the new item to the "new-todo-items" container
+     
         const newTodoItemsContainer = document.getElementById('new-todo-items');
         newTodoItemsContainer.appendChild(newItem);
       } else {
-        // Handle error response
+      
         console.error('Error adding a new TODO item');
       }
     } catch (error) {
@@ -35,8 +33,6 @@ const addTodo = async (newtask) => {
     }
   };
   
-
-  // In your client-side JavaScript
 const updateTodo = async (id, description) => {
     try {
       const response = await fetch(`/updateTodo/${id}`, {
@@ -48,11 +44,11 @@ const updateTodo = async (id, description) => {
       });
   
       if (response.ok) {
-        // Handle successful response (e.g., update the TODO item in your UI)
+        
         const updatedTodo = await response.json();
         console.log('Updated TODO item:', updatedTodo);
       } else {
-        // Handle error response
+        
         console.error('Error updating TODO item');
       }
     } catch (error) {
@@ -60,7 +56,7 @@ const updateTodo = async (id, description) => {
     }
   };
   
-  // In your client-side JavaScript
+
 const deleteTodo = async (id) => {
     try {
       const response = await fetch(`/deleteTodo/${id}`, {
@@ -68,7 +64,7 @@ const deleteTodo = async (id) => {
       });
   
       if (response.ok) {
-        // Handle successful response (e.g., remove the TODO item from your UI)
+      
         console.log('TODO item deleted');
       } else {
         // Handle error response
