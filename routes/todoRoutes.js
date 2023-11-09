@@ -1,21 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const todoController = require('../controllers/todoController');
+const { addTodo, updateTodo, deleteTodo } = require('../controllers/todoController');
 
+// Add a new todo
+router.post('/addTodo', addTodo);
 
+// Update a todo
+router.put('/updateTodo/:id', updateTodo);
 
+// Delete a todo
+router.delete('/deleteTodo/:id', deleteTodo);
 
-router.get('/todos', todoController.getAllTodos);
-
-
-
-// Route to add a new TODO item
-router.post('/addTodo', todoController.addTodo);
-
-// Route to update a TODO item by ID
-router.put('/updateTodo/:id', todoController.updateTodo);
-
-// Route to delete a TODO item by ID
-router.delete('/deleteTodo/:id', todoController.deleteTodo);
-
+// Export the router
 module.exports = router;

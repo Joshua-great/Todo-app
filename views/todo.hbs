@@ -1,7 +1,15 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
-	
-   
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Todo</title>
+     <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+ 
 </head>
 <body>
     <div class="container">
@@ -15,18 +23,21 @@
         </form>
 
         <h3>Todo</h3>
-        <ul id="incomplete-tasks">
-            {{#each todos}}
-            <li>
-                <input type="checkbox">
-                <label>{{this.description}}</label>
-                <input type="text">
-                <button class="edit">Edit</button>
-                <button class="delete">Delete</button>
-            </li>
-            {{/each}}
-        </ul>
+     <ul id="incomplete-tasks">
+  <!-- Existing todo items -->
+  {{#each todos}}
+  <li>
+    <input type="checkbox">
+    <label>{{this.description}}</label>
+    <input type="text">
+    <button class="edit">Edit</button>
+    <button class="delete">Delete</button>
+  </li>
+  {{/each}}
+</ul>
 
+<!-- Container for new todo items -->
+<ul id="new-todo-items"></ul>
         <h3>Completed</h3>
         <ul id="completed-tasks">
             <li>

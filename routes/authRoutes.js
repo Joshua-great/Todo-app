@@ -4,19 +4,40 @@ const { body, validationResult } = require('express-validator');
 const authController = require('../controllers/authController');
 const authMiddleware = require('../middleware/auth');
 const Todo = require('../models/todo');
-const userRouter = express.Router(); // Define userRouter with const
+const userRouter = express.Router(); 
 
-// Render the login page
+
 userRouter.get('/', (req, res) => {
   res.render('login');
 });
 
-// Render the signup page
+
 userRouter.get('/signup', (req, res) => {
   res.render('signup');
 });
+// userRouter.get('/todo', (req, res) => {
+ 
+//   res.render('todo'); 
+// });
+userRouter.post('/login', async (req, res) => {
+  try{
+  const response = await authController.login(req, res);
 
-// Handle signup form submission
+  if (response && response.code == 200) {
+  
+    // If login is successful, set a JWT cookie and redirect to the blog page
+    res.cookie('jwt', response.token, { maxAge: 60 * 60 * 1000, secure: true, httpOnly: true });
+  
+    res.redirect('/todo');
+
+  } 
+}catch (error) {
+  console.error(error);
+  res.status(500).json({ message: 'Internal Server Error' });
+  res.render('login', { message: 'An error occurred.' });
+}
+});
+
 userRouter.post("/signup", async (req, res) => {
   const response = await authController.createUser({
     email: req.body.email,
@@ -26,48 +47,25 @@ userRouter.post("/signup", async (req, res) => {
   });
 
   if (response.code === 200) {
-    res.redirect("/"); // Redirect on successful signup
+    res.redirect("/"); 
   } else {
     res.render('signup', { message: response.message }); // Render signup with error message
   }
 });
 
-// Handle login form submission
-userRouter.post('/login', async (req, res) => {
-  const { email, password } = req.body;
-  const response = await authController.login(email, password);
 
-  if (response.code === 200) {
-    // If login is successful, set a JWT cookie and redirect to the /todo page
-    res.cookie('jwt', response.token, { maxAge: 60 * 60 * 1000, secure: true, httpOnly: true });
-    res.redirect('/todo');
-  } else {
-    // Handle login error
-    res.status(response.code).json(response);
-  }
-});
 
-// Route for the todo page
-// userRouter.get('/todo',  async (req, res) => {
-//   try {
-//     // Fetch todos for the logged-in user
-//     const todos = await Todo.find({ userId: req.session.user._id });
-//     res.render('todo', { todo });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: 'Error fetching todos' });
-//   }
-// });
-userRouter.get('/todos', async (req, res) => {
+userRouter.get('/todo', async (req, res) => {
   try {
-    const todos = await Todo.find();
-    res.render('todos', { todos }); // Pass the `todos` array to the template
+      const todos = await Todo.find();
+      res.render('todo');
   } catch (error) {
-    res.status(500).json({ error: 'Error fetching todos' });
+      res.status(500).json({ error: 'Error fetching todos' });
   }
 });
 
-// Handle the logout request
+
+
 userRouter.get('/logout', authController.logout);
 
 module.exports = userRouter;

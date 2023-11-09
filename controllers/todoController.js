@@ -1,7 +1,12 @@
-// Assuming you are using JavaScript on the client-side
+const Todo = require('../models/todo');
 
-// To add a new TODO item
-const addTodo = async (newtask) => {
+const addTodo = async (req, res) => {
+  const { newtask } = req.body;
+
+  if (!newtask) {
+    return res.status(400).json({ error: 'Task description is required.' });
+  }
+
   try {
     const response = await fetch('/addTodo', {
       method: 'POST',
@@ -12,17 +17,31 @@ const addTodo = async (newtask) => {
     });
 
     if (response.ok) {
-      // Handle successful response (e.g., display the new TODO item)
+      // Handle successful response (e.g., create a new todo item in your UI)
       const todo = await response.json();
-      console.log('New TODO item:', todo);
+
+      // Create a new list item for the todo
+      const newItem = document.createElement('li');
+      newItem.innerHTML = `
+        <input type="checkbox">
+        <label>${todo.description}</label>
+        <input type="text">
+        <button class="edit">Edit</button>
+        <button class="delete">Delete</button>
+      `;
+
+      // Add the new item to the "new-todo-items" container
+      const newTodoItemsContainer = document.getElementById('new-todo-items');
+      newTodoItemsContainer.appendChild(newItem);
     } else {
       // Handle error response
-      console.error('Error adding TODO item');
+      console.error('Error adding a new TODO item');
     }
   } catch (error) {
     console.error('An error occurred:', error);
   }
 };
+
 
 // To update a TODO item
 const updateTodo = async (id, description) => {
@@ -65,4 +84,9 @@ const deleteTodo = async (id) => {
   } catch (error) {
     console.error('An error occurred:', error);
   }
+};
+module.exports = {
+  addTodo,
+  updateTodo,
+  deleteTodo,
 };

@@ -31,34 +31,61 @@ const createUser = async ({email, first_name, last_name, password})=>{
 }
 
 
-const login = async (email, password) => {
+const login = async (req, res) => {
   try {
+    logger.info('[Authenticate user] => login process started');
+    
+    const { email, password } = req.body;
     if (!email || !password) {
-      return { code: 400, message: "Email and Password required" };
+      return res.status(400).json({
+        code: 400,
+        message: "Username and Password required",
+      });
     }
 
     const user = await User.findOne({ email });
 
     if (!user) {
-      return { code: 404, message: "User not found" };
+      return res.status(404).json({
+        code: 404,
+        message: "User not found",
+      });
     }
 
     const validPassword = await user.isValidPassword(password);
 
     if (!validPassword) {
-      return { code: 422, message: "Email or password is incorrect" };
+      return res.status(422).json({
+        code: 422,
+        message: "Email or password is incorrect",
+      });
     }
 
     const token = jwt.sign({ _id: user._id, email: user.email }, process.env.JWT_SECRET, {
       expiresIn: "2h",
     });
+    user.token = token;
 
-    return { code: 200, message: "Successful login", user, token };
+    logger.info('[Give user access] => login process successful');
+
+    return{
+      message:"successful login",
+      code:200,
+      user,
+      token 
+    }
+
   } catch (err) {
     logger.error(err.message);
-    return { code: 500, message: 'Server Error' };
+    return{
+      message: 'Server Error',
+      code:500,
+      data: null
+    }
+
   }
 };
+
 
 const logout = (req, res) => {
   
