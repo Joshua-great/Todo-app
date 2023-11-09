@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Todo -Login</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+  <!--Stylesheet-->
+   <style media="screen">
+.my-form {
+   margin-top: 250px;
+  padding: 2em;
+  color: #fff;
+  max-width: 55vh;
+  margin-inline: auto;
+}
+h1 {
+  font-weight: bold;
+  text-align: center;
+  font-size: 2.5em;
+}
+.form-control {
+  background-color: inherit;
+  color: #fff;
+  border: none;
+  border-bottom: 1px solid #fff;
+  border-radius: 0;
+  padding-left: 0;
+}
+.form-control:focus {
+  background-color: inherit;
+  color: #fff;
+  box-shadow: none;
+  border-color: #fff;
+}
+.btn {
+  border-radius: 0;
+  width: 100%;
+  font-weight: bold;
+}
+.my-form p {
+  color: gray;
+  text-align: center;
+}
+
+.my-form p a {
+  color: #e1e1e1;
+  text-decoration: none;
+}
+.my-form p a:hover {
+  color: #fff;
+}
+
+
+  </style>
+</head>
+<body>
+            
+       <div>
+  <div class="my-form bg-dark">
+  <h1>Login Form</h1>
+  <form action="/login" method="POST">
+     {{#if message }}
+    <h4 class="alert alert-danger mt-4">{{message}}</h4>
+{{/if}}
+    <div class="mb-3 mt-4">
+       <label for="loginEmail">Email</label>
+                                <input type="email" placeholder="Email Address" class="form-control" id="loginEmail" name="email" required>
+    </div>
+    <div class="mb-3 mt-4">
+      <label for="loginPassword">Password</label>
+                                <input type="password" placeholder="............" class="form-control" id="loginPassword" name="password" required>
+    <button type="submit" class="btn btn-light mt-3">LOGIN</button>
+  </form>
+  <p class="mt-4">Not a member? <a href="/signup">Signup now</a></p>
+</div>
+   
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js"></script>
+
+</body>
+</html>
